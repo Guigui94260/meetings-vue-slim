@@ -38,12 +38,23 @@
     },
     methods: {
       addNewParticipant(participant) {
+        this.$http.post('participants', participant).then(response => {
+        this.people = response.body;
+        })
         this.people.push(participant);
       },
       removeParticipant(participant) {
+        this.$http.delete('participants/'+participant.id).then(response => {
+        this.people = response.body;
+        })
         const index = this.people.indexOf(participant);
         this.people.splice(index, 1);
       }
+    }
+    mounted() {
+      this.$http.get('participants').then(response => {
+      this.people = response.body;
+      });
     }
   };
 </script>
